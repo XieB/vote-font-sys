@@ -1,15 +1,33 @@
 <template>
     <div class="setting">
-        this is setting
+        <van-cell-group>
+            <van-cell title="修改密码" is-link class="no_left" to="/setting/resetPass"/>
+            <van-cell title="审核" is-link class="no_left" to="/setting/examine"/>
+            <van-cell title="人员列表" is-link class="no_left" to="/setting/memberList"/>
+        </van-cell-group>
     </div>
 </template>
 
 <script>
     export default {
-        name: "setting"
+        name: "setting",
+        data(){
+            return {
+                settingInfo : {
+                    oldPassword : '',
+                    newPassword : '',
+                    rePassword : '',
+                }
+            }
+        }
     }
 </script>
 
-<style scoped>
-
+<style lang="less" scoped>
+.setting{
+    /*margin-top: 40px;*/
+    .button{
+        margin-top: 40px;
+    }
+}
 </style>

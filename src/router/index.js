@@ -18,8 +18,28 @@ export default new Router({
                     component: _import('vote')
                 },
                 {
+                    path: 'vote/add',
+                    component: _import('add')
+                },
+                {
+                    path: 'vote/edit/:id',
+                    component: _import('editVote')
+                },
+                {
                     path: 'setting',
                     component: _import('setting'),
+                },
+                {
+                    path: 'setting/resetPass',
+                    component: _import('resetPass'),
+                },
+                {
+                    path: 'setting/examine',
+                    component: _import('examine'),
+                },
+                {
+                    path: 'setting/memberList',
+                    component: _import('memberList'),
                 }
             ]
         },

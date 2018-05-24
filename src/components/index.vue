@@ -1,9 +1,9 @@
 <template>
-    <div class="main">
+    <div class="index">
         <router-view></router-view>
         <van-tabbar v-model="active">
             <van-tabbar-item icon="more" to="/vote">投票</van-tabbar-item>
-            <van-tabbar-item icon="setting" to="/setting">设置</van-tabbar-item>
+            <van-tabbar-item icon="setting" to="/setting">管理</van-tabbar-item>
         </van-tabbar>
     </div>
 </template>
@@ -13,8 +13,16 @@
         name: "index",
         data(){
             return {
-                active: 0,
+                active: '',
             }
+        },
+        created(){
+            let routePath = this.$route.path;
+            if (routePath.indexOf('/vote') == 0){
+                this.active = 0;
+            }else if(routePath.indexOf('/setting') == 0){
+                this.active = 1;
+            };
         }
     }
 </script>
