@@ -11,22 +11,25 @@
 <script>
     export default {
         name: "index",
-        data(){
+        data() {
             return {
                 active: '',
             }
         },
-        created(){
+        created() {
             let routePath = this.$route.path;
-            if (routePath.indexOf('/vote') == 0){
+            if (routePath.indexOf('/vote') == 0) {
                 this.active = 0;
-            }else if(routePath.indexOf('/setting') == 0){
+            } else if (routePath.indexOf('/setting') == 0) {
                 this.active = 1;
-            };
+            }
+            ;
         }
     }
 </script>
 
-<style scoped>
-
+<style lang="less" scoped>
+    .van-tabbar-item--active{
+        color: #4b0;
+    }
 </style>
