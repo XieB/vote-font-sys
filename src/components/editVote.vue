@@ -45,7 +45,6 @@
         </van-radio-group>
         <div class="plr10 mt10">
             <van-button type="primary" size="large" class="button">提交</van-button>
-            <van-button type="danger" size="large" class="button mt10">删除该投票</van-button>
         </div>
     </div>
 </template>

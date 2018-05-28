@@ -7,7 +7,10 @@
                         label="用户名"
                         placeholder="请输入用户名"
                         required
+                        v-validate="'required|email'"
+                        name="email"
                 />
+                <span v-show="errors.has('email')" class="error_tips">{{ errors.first('email') }}</span>
 
                 <van-field
                         v-model="password"
@@ -17,7 +20,7 @@
                         required
                 />
             </van-cell-group>
-            <van-button type="primary" size="large" class="button">登录</van-button>
+            <van-button type="primary" size="large" class="button" @click="submit">登录</van-button>
         </div>
     </div>
 </template>
@@ -29,6 +32,11 @@
             return {
                 username: '',
                 password: '',
+            }
+        },
+        methods:{
+            submit(){
+                console.log(this.errors);
             }
         }
     }

@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <router-view></router-view>
+        <router-view v-wechat-title='$route.meta.title'></router-view>
     </div>
 </template>
 
@@ -45,5 +45,22 @@
     }
     .mt10{
         margin-top: 10px;
+    }
+    .van-cell-swipe__right{
+        color: #FFFFFF;
+        font-size: 15px;
+        width: 65px;
+        height: 44px;
+        display: inline-block;
+        text-align: center;
+        line-height: 44px;
+        background-color: #F44;
+    }
+    .ps-re{
+        position: relative;
+    }
+    .error_tips{
+        position: absolute;
+        right: 0;
     }
 </style>

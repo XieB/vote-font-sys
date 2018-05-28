@@ -8,17 +8,22 @@
                         :finished="finished"
                         @load="onLoad"
                 >
-                    <van-cell title="单元格" is-link value="详情" v-for="item in list" class="no_left" :to="{path:'/vote/edit/2'}" />
-                </van-list>
 
+                    <van-cell-swipe :right-width="65"  v-for="item in list" :on-close="onClose">
+                        <van-cell-group>
+                            <van-cell title="单元格" :to="{path:'/vote/edit/' + item}" is-link/>
+                        </van-cell-group>
+                        <span slot="right">删除</span>
+                    </van-cell-swipe>
+                </van-list>
             </van-tab>
-            <van-icon name="add-o" color="#4b0" class="add_vote" @click="addVote"/>
         </van-tabs>
 
     </div>
 </template>
 
 <script>
+    import { Dialog } from 'vant';
     //在开始时间之后无法编辑
     export default {
         name: "vote",
@@ -49,8 +54,22 @@
                     }
                 }, 500);
             },
-            addVote(){
-                this.$router.push('/vote/add');
+
+            onClose(clickPosition, instance){
+                switch (clickPosition) {
+                    case 'left':
+                    case 'cell':
+                    case 'outside':
+                        instance.close();
+                        break;
+                    case 'right':
+                        Dialog.confirm({
+                            message: '确定删除吗？'
+                        }).then(() => {
+                            instance.close();
+                        });
+                        break;
+                }
             }
         }
     }
@@ -59,13 +78,6 @@
 <style lang="less" scoped>
 .vote{
     .add_vote{
-        font-size: 30px;
-        position: fixed;
-        top: 50px;
-        right: 10px;
-        background-color: #fff;
-        opacity: 0.8;
-        border-radius: 50%;
     }
 }
 </style>
