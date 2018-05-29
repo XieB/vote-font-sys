@@ -7,10 +7,8 @@
                         label="用户名"
                         placeholder="请输入用户名"
                         required
-                        v-validate="'required|email'"
-                        name="email"
+                        v-checkParam="{required:true}"
                 />
-                <span v-show="errors.has('email')" class="error_tips">{{ errors.first('email') }}</span>
 
                 <van-field
                         v-model="password"
@@ -18,6 +16,7 @@
                         label="密码"
                         placeholder="请输入密码"
                         required
+                        v-checkParam="{required:true}"
                 />
             </van-cell-group>
             <van-button type="primary" size="large" class="button" @click="submit">登录</van-button>
@@ -26,6 +25,8 @@
 </template>
 
 <script>
+    import { Toast } from 'vant';
+    import {adminLogin} from '@/ajax';
     export default {
         name: "login",
         data(){
@@ -36,7 +37,14 @@
         },
         methods:{
             submit(){
-                console.log(this.errors);
+                this.$VerifyAll().then(res=>{
+                    if (res){
+                        adminLogin(this.username,this.password).then(res=>{
+                            console.log(res);
+                        })
+                    }
+                })
+
             }
         }
     }

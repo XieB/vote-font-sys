@@ -63,4 +63,10 @@
         position: absolute;
         right: 0;
     }
+    .input-error{
+        background-color: #f85 !important;
+    }
+    .input-error input{
+        background-color: #f85;
+    }
 </style>
