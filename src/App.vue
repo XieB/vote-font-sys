@@ -64,9 +64,12 @@
         right: 0;
     }
     .input-error{
+        transition: all 0.3s;
         background-color: #f85 !important;
     }
-    .input-error input{
+    .input-error input,.input-error textarea{
+        transition: all 0.3s;
         background-color: #f85;
     }
+
 </style>

@@ -6,6 +6,8 @@ import 'vant/lib/vant-css/index.css';
 
 import router from './router'
 
+// import './test';
+
 import MyVerify from './assets/js/MyVerify'
 Vue.use(MyVerify);
 //标题

@@ -27,6 +27,8 @@
 <script>
     import { Toast } from 'vant';
     import {adminLogin} from '@/ajax';
+    import {setToken} from "@/utils";
+
     export default {
         name: "login",
         data(){
@@ -40,7 +42,12 @@
                 this.$VerifyAll().then(res=>{
                     if (res){
                         adminLogin(this.username,this.password).then(res=>{
-                            console.log(res);
+                            if (res.data.status){
+                                setToken(res.data.data);
+                                this.$router.push('/vote');
+                            }else{
+                                Toast(res.data.info);
+                            }
                         })
                     }
                 })

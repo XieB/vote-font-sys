@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import {getToken} from "@/utils";
 
 Vue.use(Router)
 
 let _import = file => () => import('@/components/' + file);
 
-export default new Router({
+const router = new Router({
     routes: [
         { path: '/', redirect: '/vote' },
         {
@@ -18,13 +19,7 @@ export default new Router({
                     component: _import('vote'),
                     meta: {
                         title: '投票管理',
-                    },
-                },
-                {
-                    path: 'vote/add',
-                    component: _import('add'),
-                    meta: {
-                        title: '新增投票',
+                        requiresAuth: true
                     },
                 },
                 {
@@ -32,6 +27,7 @@ export default new Router({
                     component: _import('editVote'),
                     meta: {
                         title: '编辑投票',
+                        requiresAuth: true
                     },
                 },
                 {
@@ -39,6 +35,7 @@ export default new Router({
                     component: _import('setting'),
                     meta: {
                         title: '设置',
+                        requiresAuth: true
                     },
                 },
                 {
@@ -46,6 +43,7 @@ export default new Router({
                     component: _import('resetPass'),
                     meta: {
                         title: '重置密码',
+                        requiresAuth: true
                     },
                 },
                 {
@@ -53,6 +51,7 @@ export default new Router({
                     component: _import('examine'),
                     meta: {
                         title: '审核',
+                        requiresAuth: true
                     },
                 },
                 {
@@ -60,8 +59,17 @@ export default new Router({
                     component: _import('memberList'),
                     meta: {
                         title: '成员管理',
+                        requiresAuth: true
                     },
-                }
+                },
+                {
+                    path: 'setting/add',
+                    component: _import('add'),
+                    meta: {
+                        title: '新增投票',
+                        requiresAuth: true
+                    },
+                },
             ]
         },
         {
@@ -74,3 +82,15 @@ export default new Router({
         }
     ]
 })
+
+
+router.beforeEach(function (to, from, next) {
+    let auth = getToken();
+    if (to.meta.requiresAuth && (auth == null || auth == '')) {
+        next('/login');
+    } else {
+        next();
+    }
+})
+
+export default router;

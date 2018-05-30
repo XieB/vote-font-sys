@@ -2,8 +2,7 @@
     <div class="index">
         <router-view></router-view>
         <van-tabbar v-model="active">
-            <van-tabbar-item icon="more" to="/vote">投票管理</van-tabbar-item>
-            <van-tabbar-item icon="add" to="/vote/add">新增</van-tabbar-item>
+            <van-tabbar-item icon="more" to="/vote">投票列表</van-tabbar-item>
             <van-tabbar-item icon="setting" to="/setting">管理</van-tabbar-item>
         </van-tabbar>
     </div>
@@ -23,7 +22,7 @@
                 this.active = 0;
             } else if (routePath.indexOf('/setting') == 0) {
                 this.active = 1;
-            };
+            }
         }
     }
 </script>

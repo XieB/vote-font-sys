@@ -10,10 +10,11 @@ MyVerify.install = function (Vue, options) {
     Vue.directive('checkParam', {
         //     // 当被绑定的元素插入到 DOM 中时……
         inserted: function (el, binding, vNode) {
+            let realInput = el.getElementsByTagName('input')[0];
+            if (!realInput) realInput = el.getElementsByTagName('textarea')[0];
             el.addEventListener('keyup', function (event) {
                 // 首先去除已有样式
-                let realInput = el.getElementsByTagName('input')[0];
-                console.log(realInput.value);
+                // console.log(realInput);
                 el.className = el.className.replace('input-error', '').trim()
                 let isRequired = binding.value.required
                 if (isRequired) {
@@ -46,7 +47,8 @@ MyVerify.install = function (Vue, options) {
 
     Vue.prototype.$VerifyAll = function () {
         return new Promise((resolve, reject)=>{
-            let elements = document.getElementsByClassName('van-cell--required')
+            let elements = document.getElementsByClassName('van-cell--required');
+            // console.log(elements);
             var evObj = document.createEvent('Event')
             evObj.initEvent('keyup', true, true)
             for (let element of elements) {
