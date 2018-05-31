@@ -3,6 +3,15 @@
 
         <van-radio-group v-model="info.type" class="group">
             <van-cell-group>
+                <van-field
+                        v-model="info.title"
+                        label="标题"
+                        placeholder="请输入标题"
+                        required
+                        type="text"
+                        v-checkParam="{required:true}"
+                />
+
                 <van-cell title="单选" clickable @click="info.type = '1'">
                     <van-radio name="1" />
                 </van-cell>
@@ -22,7 +31,7 @@
                 />
 
                 <van-field
-                        v-model="formatStartTime"
+                        v-model="info.startTime"
                         label="开始时间"
                         placeholder="开始时间，默认当前时间"
                         @click="showStartTimeSelect"
@@ -30,7 +39,7 @@
                 />
 
                 <van-field
-                        v-model="formatEndTime"
+                        v-model="info.endTime"
                         label="结束时间"
                         placeholder="结束时间"
                         required
@@ -65,6 +74,7 @@
                     @confirm="submitStartTime"
                     @cancel="startTime.isShow = false"
                     v-show="startTime.isShow"
+                    cancel-button-text="关闭"
             />
         </transition>
 
@@ -78,40 +88,44 @@
                     @confirm="submitEndTime"
                     @cancel="endTime.isShow = false"
                     v-show="endTime.isShow"
+                    cancel-button-text="关闭"
             />
         </transition>
     </div>
 </template>
 
 <script>
+    // import {adminLogin} from '@/ajax';
     const dayjs = require('dayjs');
+    let _time = dayjs();
+    let oneDayLater = _time.add(1, 'day'); //一天后超时
     export default {
         name: "add",
         data() {
             return {
                 info: {
+                    title: '',
                     type: '1',
                     maxVote: '',
-                    startTime: 0,
-                    endTime: 0,
+                    startTime: '',
+                    endTime: '',
                     nameList: '',
                 },
                 startTime: {
                     isShow: false,
-                    minDate: new Date(),
-                    currentDate: new Date()
+                    minDate: _time.toDate(),
+                    currentDate: _time.toDate(),
                 },
                 endTime: {
                     isShow: false,
-                    minDate: new Date(),
-                    currentDate: new Date()
+                    minDate: _time.toDate(),
+                    currentDate: oneDayLater.toDate(),
                 }
             }
         },
         created(){
-            let _time = dayjs();
-            this.info.startTime = _time.unix();
-            this.info.endTime = _time.add(1, 'day').unix();   //默认一天后超时
+            this.info.startTime = _time.format('YYYY-MM-DD HH:mm');
+            this.info.endTime = oneDayLater.format('YYYY-MM-DD HH:mm');
         },
         watch:{
             'info.nameList':function(){
@@ -120,25 +134,13 @@
                 }
             }
         },
-        computed:{
-            formatStartTime: function(){
-                if (this.info.startTime){
-                    return dayjs(this.info.startTime * 1000).format('YYYY-MM-DD HH:mm:ss');
-                }
-            },
-            formatEndTime: function(){
-                if (this.info.endTime){
-                    return dayjs(this.info.endTime * 1000).format('YYYY-MM-DD HH:mm:ss');
-                }
-            }
-        },
         methods:{
             submitStartTime(value){
-                this.info.startTime = dayjs(value).unix();
+                this.info.startTime = dayjs(value).format('YYYY-MM-DD HH:mm');
                 this.startTime.isShow = false;
             },
             submitEndTime(value){
-                this.info.endTime = dayjs(value).unix();
+                this.info.endTime = dayjs(value).format('YYYY-MM-DD HH:mm');
                 this.endTime.isShow = false;
             },
             showStartTimeSelect(){
@@ -153,7 +155,7 @@
             },
             submit(){
                 this.$VerifyAll().then(res=>{
-                    console.log(res);
+
                 })
             }
         }

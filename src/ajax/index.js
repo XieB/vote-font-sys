@@ -4,7 +4,7 @@ import Qs from 'qs'
 import {getToken} from "@/utils";
 import router from '@/router';
 
-var http = axios.create({
+let http = axios.create({
     // baseURL: 'http://www.vote-tp.tt',
     baseURL: 'http://192.168.0.110',
     timeout: 2000,
@@ -35,10 +35,10 @@ http.interceptors.response.use(
     },
     error => {
         if (error.response.status == '401') {  //过期失效
-            router.replace({
-                path: '/login',
-                query: { redirect: to.fullPath }
-            })
+            // router.replace({
+            //     path: '/login',
+            //     query: { redirect: to.fullPath }
+            // })
         }
         return Promise.reject(error);
     }
@@ -52,4 +52,13 @@ http.interceptors.response.use(
  */
 export function adminLogin(username,password){
     return http.post('/v1/token/admin',{username:username,password:password});
+}
+
+/**
+ * 添加投票
+ * @param obj 提交对象
+ * @returns {AxiosPromise<any>}
+ */
+export function addVote(obj){
+    return http.post('/v1/vote',obj);
 }
