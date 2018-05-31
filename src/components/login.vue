@@ -26,7 +26,7 @@
 
 <script>
     import { Toast } from 'vant';
-    import {adminLogin} from '@/ajax';
+    import {adminLogin} from '@/axios';
     import {setToken} from "@/utils";
 
     export default {

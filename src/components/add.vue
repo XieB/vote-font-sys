@@ -95,7 +95,7 @@
 </template>
 
 <script>
-    // import {adminLogin} from '@/ajax';
+    import {addVote} from '@/axios';
     const dayjs = require('dayjs');
     let _time = dayjs();
     let oneDayLater = _time.add(1, 'day'); //一天后超时
