@@ -61,7 +61,7 @@
             </van-cell-group>
         </van-radio-group>
         <div class="plr10 mt10">
-            <van-button type="primary" size="large" class="button" @click="submit">提交</van-button>
+            <van-button type="primary" size="large" class="button" @click="submit" :loading="submitLoading">提交</van-button>
         </div>
 
         <transition name="top" mode="out-in">
@@ -96,6 +96,7 @@
 
 <script>
     import {addVote} from '@/axios';
+    import { Toast } from 'vant';
     const dayjs = require('dayjs');
     let _time = dayjs();
     let oneDayLater = _time.add(1, 'day'); //一天后超时
@@ -120,7 +121,8 @@
                     isShow: false,
                     minDate: _time.toDate(),
                     currentDate: oneDayLater.toDate(),
-                }
+                },
+                submitLoading: false,
             }
         },
         created(){
@@ -153,10 +155,26 @@
                 this.startTime.isShow = booleanValue;
                 this.endTime.isShow = !booleanValue;
             },
+
+            resetData(){
+                this.info.title = '';
+                this.info.maxVote = '';
+                this.info.nameList = '';
+            },
             submit(){
                 this.$VerifyAll().then(res=>{
-
+                    this.submitLoading = true;
+                    addVote(this.info).then(res=>{
+                        this.submitLoading = false;
+                        if (res.data.status){
+                            Toast('添加成功');
+                            this.resetData();
+                        }else{
+                            Toast('添加失败');
+                        }
+                    })
                 })
+
             }
         }
     }

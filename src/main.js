@@ -6,6 +6,8 @@ import 'vant/lib/vant-css/index.css';
 
 import router from './router'
 
+window.router = router;     //我想在axios封装的代码里用
+
 import MyVerify from './assets/js/MyVerify'
 Vue.use(MyVerify);
 //标题

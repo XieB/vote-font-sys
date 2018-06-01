@@ -7,14 +7,18 @@
                         v-model="loading"
                         :finished="finished"
                         @load="onLoad"
+                        :offset="80"
                 >
 
-                    <van-cell-swipe :right-width="65"  v-for="item in list" :on-close="onClose">
+                    <van-cell-swipe :right-width="65"  v-for="(item,index) in list" :on-close="onClose(item.id,index)">
                         <van-cell-group>
-                            <van-cell title="单元格" :to="{path:'/vote/edit/' + item}" is-link/>
+                            <van-cell :title="item.title" :to="{path:'/vote/edit/' + item.id}" value="单选" is-link v-if="item.type == 1" />
+                            <van-cell :title="item.title" :to="{path:'/vote/edit/' + item.id}" value="多选" is-link v-else />
                         </van-cell-group>
                         <span slot="right">删除</span>
                     </van-cell-swipe>
+
+                    <van-cell title="我是有底线的" v-show="finished" class="last_line"/>
                 </van-list>
             </van-tab>
         </van-tabs>
@@ -24,6 +28,7 @@
 
 <script>
     import { Dialog } from 'vant';
+    import { getVote, deleteVote } from '@/axios';
     //在开始时间之后无法编辑
     export default {
         name: "vote",
@@ -34,8 +39,10 @@
                 finished: false,
                 active: 2,
 
+                page: '1',  //页码
+
                 tabTitle: [
-                    '进行中',
+                    '未结束',
                     '已结束',
                 ]
             };
@@ -43,32 +50,39 @@
 
         methods: {
             onLoad() {
-                setTimeout(() => {
-                    for (let i = 0; i < 10; i++) {
-                        this.list.push(this.list.length + 1);
-                    }
-                    this.loading = false;
-
-                    if (this.list.length >= 20) {
+                this.loading = true;
+                getVote('2',this.page).then(res=>{
+                    if (res.data.status){
+                        this.list.push(...res.data.data);
+                        this.page++;
+                    }else{
                         this.finished = true;
                     }
-                }, 500);
+                    this.loading = false;
+                })
             },
 
-            onClose(clickPosition, instance){
-                switch (clickPosition) {
-                    case 'left':
-                    case 'cell':
-                    case 'outside':
-                        instance.close();
-                        break;
-                    case 'right':
-                        Dialog.confirm({
-                            message: '确定删除吗？'
-                        }).then(() => {
+            onClose(id,index){
+                return (clickPosition, instance) => {
+                    switch (clickPosition) {
+                        case 'left':
+                        case 'cell':
+                        case 'outside':
                             instance.close();
-                        });
-                        break;
+                            break;
+                        case 'right':
+                            Dialog.confirm({
+                                message: '确定删除吗？'
+                            }).then(() => {
+                                deleteVote(id).then(res=>{
+                                    if (res.data.status){
+                                        this.list.splice(index,1);
+                                    }
+                                })
+
+                            });
+                            break;
+                    }
                 }
             }
         }
@@ -78,6 +92,10 @@
 <style lang="less" scoped>
 .vote{
     .add_vote{
+    }
+    .last_line{
+        color: #999;
+        padding: 20px 0;
     }
 }
 </style>

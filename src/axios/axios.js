@@ -1,8 +1,9 @@
 import axios from 'axios'
 import Qs from 'qs'
 
-import {getToken} from "@/utils";
-import router from '@/router';
+import {getToken,clearToken} from "@/utils";
+
+import { Toast } from 'vant';
 
 let http = axios.create({
     // baseURL: 'http://www.vote-tp.tt',
@@ -34,11 +35,20 @@ http.interceptors.response.use(
         return response;
     },
     error => {
-        if (error.response.status == '401') {  //过期失效
-            router.replace({
-                path: '/login',
-                query: { redirect: to.fullPath }
-            })
+        switch (error.response.status){
+            case 401:
+                clearToken();   //清空token
+                Toast('登录已过期，请重新登录');
+                setTimeout(()=>{
+                    // window.location.reload();   //刷新页面，路由文件判断跳转
+                    window.router.push('/login');
+                },2000);
+                console.log('401');
+                break;
+            case 500:
+                Toast('服务器内部错误');
+                console.log('500');
+                break;
         }
         return Promise.reject(error);
     }

@@ -5,3 +5,7 @@ export function getToken(){
 export function setToken(tokenValue){
     sessionStorage.setItem('token',tokenValue);
 }
+
+export function clearToken(){
+    sessionStorage.removeItem('token');
+}
