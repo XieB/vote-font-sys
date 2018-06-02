@@ -14,11 +14,6 @@
         name: "setting",
         data(){
             return {
-                settingInfo : {
-                    oldPassword : '',
-                    newPassword : '',
-                    rePassword : '',
-                }
             }
         }
     }

@@ -31,10 +31,7 @@
         height: 50px;
     }
 
-    .add_vote .van-cell__title{
-        text-align: left;
-    }
-    .edit_vote .van-cell__title{
+    .add_vote .van-cell__title,.edit_vote .van-cell__title,.info .van-cell__title{
         text-align: left;
     }
     .plr10{
@@ -70,6 +67,10 @@
     .input-error input,.input-error textarea{
         transition: all 0.3s;
         background-color: #f85;
+    }
+    .last_line{
+        color: #999 !important;
+        padding: 20px 0 !important;
     }
 
 </style>

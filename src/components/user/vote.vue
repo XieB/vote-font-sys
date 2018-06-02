@@ -1,8 +1,7 @@
 <template>
-    <div class="vote foot_h">
+    <div class="user_vote">
         <van-tabs v-model="active" sticky>
-            <van-tab title="未结束">
-
+            <van-tab title="进行中">
                 <van-list
                         v-model="loading"
                         :finished="finished"
@@ -10,20 +9,17 @@
                         :offset="80"
                 >
 
-                    <van-cell-swipe :right-width="65"  v-for="(item,index) in list" :on-close="onClose(item.id,index)">
-                        <van-cell-group>
-                            <van-cell :title="item.title" :to="{path:'/m_root/vote/edit/' + item.id}" value="单选" is-link v-if="item.type == 1" />
-                            <van-cell :title="item.title" :to="{path:'/m_root/vote/edit/' + item.id}" value="多选" is-link v-else />
-                        </van-cell-group>
-                        <span slot="right">删除</span>
-                    </van-cell-swipe>
+                    <van-cell-group>
+                        <template v-for="(item,index) in list">
+                            <van-cell :title="item.title" :to="{path:'/user/vote/do/' + item.id}" value="未投" is-link v-if="item.type == 2" class="no_left" />
+                            <van-cell :title="item.title" :to="{path:'/user/vote/result/' + item.id}" value="已投" is-link v-else class="no_left" />
+                        </template>
+                    </van-cell-group>
 
-                    <van-cell title="我是有底线的" v-show="finished" class="last_line"/>
+                    <van-cell title="我是有底线的" v-show="finished" class="last_line no_left"/>
                 </van-list>
             </van-tab>
-
             <van-tab title="已结束">
-
                 <van-list
                         v-model="loadingOver"
                         :finished="finishedOver"
@@ -31,30 +27,27 @@
                         :offset="80"
                 >
 
-                    <van-cell-swipe :right-width="65"  v-for="(item,index) in listOver" :on-close="onCloseOver(item.id,index)">
-                        <van-cell-group>
-                            <van-cell :title="item.title" :to="{path:'/m_root/vote/edit/' + item.id}" value="单选" is-link v-if="item.type == 1" />
-                            <van-cell :title="item.title" :to="{path:'/m_root/vote/edit/' + item.id}" value="多选" is-link v-else />
-                        </van-cell-group>
-                        <span slot="right">删除</span>
-                    </van-cell-swipe>
+                    <van-cell-group>
+                        <template v-for="(item,index) in listOver">
+                            <van-cell :title="item.title" :to="{path:'/user/vote/result/' + item.id}" value="未投" is-link v-if="item.type == 1" class="no_left" />
+                            <van-cell :title="item.title" :to="{path:'/user/vote/result/' + item.id}" value="已投" is-link v-else class="no_left" />
+                        </template>
 
-                    <van-cell title="我是有底线的" v-show="finishedOver" class="last_line"/>
+                    </van-cell-group>
+
+                    <van-cell title="我是有底线的" v-show="finishedOver" class="last_line no_left"/>
                 </van-list>
-
             </van-tab>
         </van-tabs>
-
     </div>
 </template>
 
 <script>
     import { Dialog } from 'vant';
     import { getVote, deleteVote } from '@/axios';
-    //在开始时间之后无法编辑
     export default {
         name: "vote",
-        data() {
+        data(){
             return {
                 list: [],
                 loading: false,
@@ -66,10 +59,9 @@
                 finishedOver: false,
                 pageOver: '1',
                 listOver: [],
-            };
+            }
         },
-
-        methods: {
+        methods:{
             onLoad() {
                 this.loading = true;
                 getVote('2',this.page).then(res=>{
@@ -146,12 +138,9 @@
 </script>
 
 <style lang="less" scoped>
-.vote{
-    .add_vote{
-    }
-    .last_line{
-        color: #999;
-        padding: 20px 0;
+.user_vote{
+    .van-cell-text{
+
     }
 }
 </style>

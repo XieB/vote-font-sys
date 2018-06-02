@@ -4,7 +4,10 @@ import {getToken} from "@/utils";
 
 Vue.use(Router)
 
-let _import = file => () => import('@/components/' + file);
+// let _import = file => () => import('@/components/' + file);
+
+let _importAdmin = file => () => import('@/components/root/' + file);
+let _importUser = file => () => import('@/components/user/' + file);
 
 const router = new Router({
     routes: [
@@ -12,11 +15,11 @@ const router = new Router({
         {
             path: '/m_root',
             name: 'main',
-            component: _import('index'),
+            component: _importAdmin('index'),
             children: [
                 {
                     path: 'vote',
-                    component: _import('vote'),
+                    component: _importAdmin('vote'),
                     meta: {
                         title: '投票管理',
                         requiresAuth: true
@@ -24,7 +27,7 @@ const router = new Router({
                 },
                 {
                     path: 'vote/edit/:id',
-                    component: _import('editVote'),
+                    component: _importAdmin('editVote'),
                     meta: {
                         title: '编辑投票',
                         requiresAuth: true
@@ -32,7 +35,7 @@ const router = new Router({
                 },
                 {
                     path: 'setting',
-                    component: _import('setting'),
+                    component: _importAdmin('setting'),
                     meta: {
                         title: '设置',
                         requiresAuth: true
@@ -40,7 +43,7 @@ const router = new Router({
                 },
                 {
                     path: 'setting/resetPass',
-                    component: _import('resetPass'),
+                    component: _importAdmin('resetPass'),
                     meta: {
                         title: '重置密码',
                         requiresAuth: true
@@ -48,7 +51,7 @@ const router = new Router({
                 },
                 {
                     path: 'setting/examine',
-                    component: _import('examine'),
+                    component: _importAdmin('examine'),
                     meta: {
                         title: '审核',
                         requiresAuth: true
@@ -56,7 +59,7 @@ const router = new Router({
                 },
                 {
                     path: 'setting/memberList',
-                    component: _import('memberList'),
+                    component: _importAdmin('memberList'),
                     meta: {
                         title: '成员管理',
                         requiresAuth: true
@@ -64,7 +67,7 @@ const router = new Router({
                 },
                 {
                     path: 'setting/add',
-                    component: _import('add'),
+                    component: _importAdmin('add'),
                     meta: {
                         title: '新增投票',
                         requiresAuth: true
@@ -72,10 +75,60 @@ const router = new Router({
                 },
             ]
         },
+
+        { path: '/user', redirect: '/user/vote' },
+        {
+            path: '/user',
+            name: 'user',
+            component: _importUser('user'),
+            children: [
+                {
+                    path: 'vote',
+                    component: _importUser('vote'),
+                    meta: {
+                        title: '投票',
+                        requiresAuth: true
+                    },
+                },
+                {
+                    path: 'setting',
+                    component: _importUser('setting'),
+                    meta: {
+                        title: '设置',
+                        requiresAuth: true
+                    },
+                },
+                {
+                    path: 'setting/info',
+                    component: _importUser('info'),
+                    meta: {
+                        title: '修改个人信息',
+                        requiresAuth: true
+                    },
+                },
+                {
+                    path: 'vote/do/:id',
+                    component: _importUser('do'),
+                    meta: {
+                        title: '投票',
+                        requiresAuth: true
+                    },
+                },
+                {
+                    path: 'vote/result/:id',
+                    component: _importUser('result'),
+                    meta: {
+                        title: '投票结果',
+                        requiresAuth: true
+                    },
+                },
+            ]
+        },
+
         {
             path: '/m_root/login',
             name: 'login',
-            component: _import('login'),
+            component: _importAdmin('login'),
             meta: {
                 title: '管理登录',
             },
