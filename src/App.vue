@@ -71,17 +71,5 @@
         transition: all 0.3s;
         background-color: #f85;
     }
-    .full_bg{
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        background-color: rgba(21,21,21,0.6);
-        z-index: 9;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
 
 </style>

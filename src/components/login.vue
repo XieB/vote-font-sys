@@ -44,7 +44,7 @@
                         adminLogin(this.username,this.password).then(res=>{
                             if (res.data.status){
                                 setToken(res.data.data);
-                                this.$router.push('/vote');
+                                this.$router.push('/m_root/vote');
                             }else{
                                 Toast(res.data.info);
                             }

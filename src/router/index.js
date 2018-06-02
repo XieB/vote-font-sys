@@ -8,9 +8,9 @@ let _import = file => () => import('@/components/' + file);
 
 const router = new Router({
     routes: [
-        { path: '/', redirect: '/vote' },
+        { path: '/m_root', redirect: '/m_root/vote' },
         {
-            path: '/',
+            path: '/m_root',
             name: 'main',
             component: _import('index'),
             children: [
@@ -73,7 +73,7 @@ const router = new Router({
             ]
         },
         {
-            path: '/login',
+            path: '/m_root/login',
             name: 'login',
             component: _import('login'),
             meta: {
@@ -87,7 +87,7 @@ const router = new Router({
 router.beforeEach(function (to, from, next) {
     let auth = getToken();
     if (to.meta.requiresAuth && (auth == null || auth == '')) {
-        next('/login');
+        next('/m_root/login');
     } else {
         next();
     }

@@ -106,36 +106,40 @@
             />
         </transition>
 
-        <div class="full_bg" v-show="ajaxLoadding">
+        <van-popup v-model="ajaxLoadding">
             <van-loading color="black"/>
-        </div>
+        </van-popup>
 
     </div>
 </template>
 
 <script>
 
-    import {addVote,getOneVote} from '@/axios';
+    import {editVote,getOneVote} from '@/axios';
     import { Toast } from 'vant';
     const dayjs = require('dayjs');
     let _time = dayjs();
-    let oneDayLater = _time.add(1, 'day'); //一天后超时
     export default {
         name: "editVote",
         data() {
             return {
                 info: {
-
+                    title: '',
+                    type: '',
+                    maxVote: '',
+                    startTime: '',
+                    endTime: '',
+                    nameList: '',
                 },
                 startTime: {
                     isShow: false,
                     minDate: _time.toDate(),
-                    currentDate: _time.toDate(),
+                    currentDate: '',
                 },
                 endTime: {
                     isShow: false,
                     minDate: _time.toDate(),
-                    currentDate: oneDayLater.toDate(),
+                    currentDate: '',
                 },
                 ajaxLoadding: true,
                 submitLoading: false,
@@ -164,7 +168,13 @@
                 if (this.info.nameList.indexOf('，') >= 0){
                     this.info.nameList = this.info.nameList.replace('，',',');
                 }
-            }
+            },
+            'info.startTime' : function(){
+                this.startTime.currentDate = dayjs(this.info.startTime).toDate();
+            },
+            'info.endTime' : function(){
+                this.endTime.currentDate = dayjs(this.info.endTime).toDate();
+            },
         },
         methods:{
             submitStartTime(value){
@@ -186,21 +196,15 @@
                 this.endTime.isShow = !booleanValue;
             },
 
-            resetData(){
-                this.info.title = '';
-                this.info.maxVote = '';
-                this.info.nameList = '';
-            },
             submit(){
                 this.$VerifyAll().then(res=>{
                     this.submitLoading = true;
-                    addVote(this.info).then(res=>{
+                    editVote(this.info).then(res=>{
                         this.submitLoading = false;
                         if (res.data.status){
-                            Toast('添加成功');
-                            this.resetData();
+                            Toast('修改成功');
                         }else{
-                            Toast('添加失败');
+                            Toast(res.data.info);
                         }
                     })
                 })
@@ -228,6 +232,9 @@
         }
         .top-enter, .top-leave-to {
             top: 100vh;
+        }
+        .van-popup{
+            background-color: transparent;
         }
     }
 </style>

@@ -41,7 +41,7 @@ http.interceptors.response.use(
                 Toast('登录已过期，请重新登录');
                 setTimeout(()=>{
                     // window.location.reload();   //刷新页面，路由文件判断跳转
-                    window.router.push('/login');
+                    window.router.push('/m_root/login');
                 },2000);
                 console.log('401');
                 break;

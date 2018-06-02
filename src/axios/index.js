@@ -33,6 +33,11 @@ export function getVote(isFinished,page){
     });
 }
 
+/**
+ * 删除
+ * @param id
+ * @returns {*}
+ */
 export function deleteVote(id){
     return http.delete('/v1/vote',{
         params: {
@@ -41,10 +46,33 @@ export function deleteVote(id){
     });
 }
 
+/**
+ * 获取单条信息
+ * @param id
+ * @returns {*}
+ */
 export function getOneVote(id){
     return http.get('/v1/vote/one',{
         params: {
             id: id,
         }
     });
+}
+
+/**
+ * 编辑
+ * @param obj 提交对象
+ * @returns {*}
+ */
+export function editVote(obj){
+    return http.put('/v1/vote',obj);
+}
+
+/**
+ * 重置密码
+ * @param obj
+ * @returns {AxiosPromise<any> | IDBRequest | Promise<void>}
+ */
+export function resetPass(obj){
+    return http.put('/v1/system/pass',obj);
 }
