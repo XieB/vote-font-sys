@@ -44,7 +44,7 @@
 
 <script>
     import { Dialog } from 'vant';
-    import { getVote, deleteVote } from '@/axios';
+    import { getUserVote } from '@/axios';
     export default {
         name: "vote",
         data(){
@@ -61,10 +61,12 @@
                 listOver: [],
             }
         },
+        created(){
+        },
         methods:{
             onLoad() {
                 this.loading = true;
-                getVote('2',this.page).then(res=>{
+                getUserVote('2',this.page).then(res=>{
                     if (res.data.status){
                         this.list.push(...res.data.data);
                         this.page++;
@@ -76,7 +78,7 @@
             },
             onLoadOver(){
                 this.loadingOver = true;
-                getVote('1',this.pageOver).then(res=>{
+                getUserVote('1',this.pageOver).then(res=>{
                     if (res.data.status){
                         this.listOver.push(...res.data.data);
                         this.pageOver++;

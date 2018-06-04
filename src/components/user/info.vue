@@ -20,7 +20,7 @@
             />
         </van-cell-group>
         <div class="plr10 mt10">
-            <van-button type="primary" size="large" class="button" @click="submit" :loading="submitLoading">提交</van-button>
+            <van-button type="primary" size="large" class="button" @click="submit" :loading="submitLoading">提交审核</van-button>
         </div>
     </div>
 </template>

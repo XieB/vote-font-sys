@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import {getToken} from "@/utils";
+import {getCodeUrl} from "@/config";
 
 Vue.use(Router)
 
@@ -132,15 +133,29 @@ const router = new Router({
             meta: {
                 title: '管理登录',
             },
+        },
+        {
+            path: '/user/login',
+            name: 'userLogin',
+            component: _importUser('login'),
+            meta: {
+                title: '用户登录',
+            },
         }
     ]
 })
 
 
 router.beforeEach(function (to, from, next) {
+    // console.log(getCodeUrl);
     let auth = getToken();
-    if (to.meta.requiresAuth && (auth == null || auth == '')) {
-        next('/m_root/login');
+    if (to.meta.requiresAuth && (auth == null || auth == '')) {     //微信打开，如果登录后台后打开前台页面，由于是sessionStorage,所以不存在问题
+        if (to.path.indexOf('/user/') == 0){    //'/user/'开头为投票用户
+            window.location.href = getCodeUrl;
+            next(false);
+        }else if (to.path.indexOf('/m_root/') == 0){ //'/m_root/'开头为后台管理
+            next('/m_root/login');
+        }
     } else {
         next();
     }

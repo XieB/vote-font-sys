@@ -6,7 +6,7 @@ import http from './axios';
  * @returns {AxiosPromise<any>}
  */
 export function adminLogin(username,password){
-    return http.post('/v1/token/admin',{username:username,password:password});
+    return http.post('/common/token/admin',{username:username,password:password});
 }
 
 /**
@@ -15,7 +15,7 @@ export function adminLogin(username,password){
  * @returns {AxiosPromise<any>}
  */
 export function addVote(obj){
-    return http.post('/v1/vote',obj);
+    return http.post('/admin/vote',obj);
 }
 
 /**
@@ -25,7 +25,7 @@ export function addVote(obj){
  * @returns {*}
  */
 export function getVote(isFinished,page){
-    return http.get('/v1/vote',{
+    return http.get('/admin/vote',{
         params: {
             type: isFinished,
             page: page,
@@ -39,7 +39,7 @@ export function getVote(isFinished,page){
  * @returns {*}
  */
 export function deleteVote(id){
-    return http.delete('/v1/vote',{
+    return http.delete('/admin/vote',{
         params: {
             id: id,
         }
@@ -52,7 +52,7 @@ export function deleteVote(id){
  * @returns {*}
  */
 export function getOneVote(id){
-    return http.get('/v1/vote/one',{
+    return http.get('/admin/vote/one',{
         params: {
             id: id,
         }
@@ -65,7 +65,7 @@ export function getOneVote(id){
  * @returns {*}
  */
 export function editVote(obj){
-    return http.put('/v1/vote',obj);
+    return http.put('/admin/vote',obj);
 }
 
 /**
@@ -74,5 +74,23 @@ export function editVote(obj){
  * @returns {AxiosPromise<any> | IDBRequest | Promise<void>}
  */
 export function resetPass(obj){
-    return http.put('/v1/system/pass',obj);
+    return http.put('/admin/system/pass',obj);
+}
+
+
+/**
+ * 通过code获取token
+ * @param code 微信code
+ * @returns {*}
+ */
+export function getTokenFromWechatCode(code){
+    return http.get('/common/token/user',{
+        params: {
+            code: code,
+        }
+    });
+}
+
+export function getUserVote(){
+    return http.get('/user/vote');
 }
