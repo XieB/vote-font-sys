@@ -44,7 +44,7 @@
 
 <script>
     import { Dialog } from 'vant';
-    import { getUserVote } from '@/axios';
+    import { getUserVote,getUserInfo } from '@/axios';
     export default {
         name: "vote",
         data(){
@@ -62,6 +62,9 @@
             }
         },
         created(){
+            // getUserInfo().then(res=>{
+            //     if (!res.data.data.examine) this.$router.push('/user/setting/info');
+            // })
         },
         methods:{
             onLoad() {

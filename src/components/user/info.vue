@@ -8,6 +8,7 @@
                     required
                     type="text"
                     v-checkParam="{required:true}"
+                    :disabled="examine"
             />
 
             <van-field
@@ -16,16 +17,22 @@
                     placeholder="请输入手机号码"
                     required
                     type="text"
-                    v-checkParam="{required:true}"
+                    v-checkParam="{required:true,regex:/^[1][3,4,5,7,8][0-9]{9}$/}"
+                    :disabled="examine"
             />
         </van-cell-group>
-        <div class="plr10 mt10">
-            <van-button type="primary" size="large" class="button" @click="submit" :loading="submitLoading">提交审核</van-button>
+        <div class="plr10 mt10" v-if="!examine">
+            <van-button type="primary" size="large" class="button" @click="submit" :loading="submitLoading">提交</van-button>
+        </div>
+        <div class="plr10 mt10" v-else>
+            <van-button type="primary" size="large" class="button" disabled>已审核通过无法修改</van-button>
         </div>
     </div>
 </template>
 
 <script>
+    import {updateUserInfo,getUserInfo} from '@/axios';
+    import { Toast } from 'vant';
     export default {
         name: "info",
         data(){
@@ -35,13 +42,32 @@
                     mobile: '',
                 },
                 submitLoading: false,
+                examine: false, //已审核通过无法修改信息
             }
+        },
+        created(){
+            getUserInfo().then(res=>{
+                if (res.data.status){
+                    let _data = res.data.data;
+                    this.info.realName = _data.realName;
+                    this.info.mobile = _data.mobile;
+                    if (_data.examine){
+                        this.examine = true;
+                    }
+                }
+            })
         },
         methods:{
             submit(){
                 this.$VerifyAll().then(res=>{
                     if (res){
-
+                        updateUserInfo(this.info).then(res=>{
+                            if (res.data.status){
+                                Toast('修改成功，请耐心等待审核');
+                            }else{
+                                Toast(res.data.info);
+                            }
+                        })
                     }
                 })
             }

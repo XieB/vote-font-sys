@@ -4,35 +4,75 @@
                 v-model="loading"
                 :finished="finished"
                 @load="onLoad"
+                :offset="80"
         >
-            <van-cell title="单元格" class="no_left">
-                <van-icon slot="right-icon" name="delete" class="van-cell__right-icon" />
-            </van-cell>
+
+            <van-cell-swipe :right-width="65"  v-for="(item,index) in list"  :on-close="onClose(item.id,index)">
+                <van-cell-group>
+                    <van-cell :title="`${item.realName} ${item.mobile}`" />
+                </van-cell-group>
+                <span slot="right">删除</span>
+            </van-cell-swipe>
+
+            <van-cell title="我是有底线的" v-show="finished" class="last_line no_left"/>
         </van-list>
     </div>
 </template>
 
 <script>
+    import {getExamine,deleteMember} from '@/axios';
+    import {Toast,Dialog} from 'vant';
     export default {
         name: "memberList",
         data(){
             return {
                 loading: false,
                 finished: false,
+                list: [],
+                page: 1,
             }
+        },
+        created(){
+
         },
         methods:{
             onLoad() {
-                setTimeout(() => {
-                    for (let i = 0; i < 10; i++) {
-                        this.list.push(this.list.length + 1);
-                    }
-                    this.loading = false;
-
-                    if (this.list.length >= 20) {
+                console.log('load');
+                this.loading = true;
+                getExamine(this.page).then(res=>{
+                    if (res.data.status){
+                        this.list.push(...res.data.data);
+                        this.page++;
+                    }else{
                         this.finished = true;
                     }
-                }, 500);
+                    this.loading = false;
+                })
+            },
+            onClose(id,index){
+                return (clickPosition, instance) => {
+                    switch (clickPosition) {
+                        case 'left':
+                        case 'cell':
+                        case 'outside':
+                            instance.close();
+                            break;
+                        case 'right':
+                            Dialog.confirm({
+                                message: '确定删除吗？'
+                            }).then(() => {
+                                deleteMember(id).then(res=>{
+                                    if (res.data.status){
+                                        this.list.splice(index,1);
+                                    }else{
+                                        Toast('删除失败');
+                                    }
+                                })
+
+                            });
+                            break;
+                    }
+                }
             },
         }
     }

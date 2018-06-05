@@ -26,9 +26,14 @@
                 return;
             }
             getTokenFromWechatCode(url.code).then(res=>{
+                console.log(res);
                 if (res.data.status){
-                    setToken(res.data.data);
-                    this.$router.replace('/user/setting/info');
+                    setToken(res.data.data.token);
+                    if (res.data.data.isExamine){
+                        this.$router.replace('/user/vote');
+                    }else{
+                        this.$router.replace('/user/setting/info');
+                    }
                     // let redirectUrl = location.href.replace(location.search,'');
                     // window.location.href = redirectUrl;     //如果不替换会有code参数
                 }else{

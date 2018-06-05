@@ -77,6 +77,47 @@ export function resetPass(obj){
     return http.put('/admin/system/pass',obj);
 }
 
+/**
+ * 获取未审核人员列表
+ */
+export function getNoExamine(page){
+    return http.get('/admin/system/noMember',{
+        params : {
+            page: page,
+        }
+    });
+}
+
+/**
+ * 已审核成员列表
+ * page 页码
+ * @returns {*}
+ */
+export function getExamine(page){
+    return http.get('/admin/system/member',{
+        params : {
+            page: page,
+        }
+    });
+}
+
+export function deleteMember(id){
+    return http.delete('/admin/system/member',{
+        params:{
+            id: id
+        }
+    });
+}
+
+/**
+ * 审核成员
+ * @param id
+ * @returns {AxiosPromise<any> | IDBRequest | Promise<void>}
+ */
+export function examineUser(id){
+    return http.put('/admin/system/member',{id: id});
+}
+
 
 /**
  * 通过code获取token
@@ -91,6 +132,27 @@ export function getTokenFromWechatCode(code){
     });
 }
 
+/**
+ * 用户获取投票
+ * @returns {*}
+ */
 export function getUserVote(){
     return http.get('/user/vote');
+}
+
+/**
+ * 更新个人信息
+ * @param obj 提交对象
+ * @returns {AxiosPromise<any> | IDBRequest | Promise<void>}
+ */
+export function updateUserInfo(obj){
+    return http.put('/user/setting/user',obj);
+}
+
+/**
+ * 获取用户信息
+ * @returns {*}
+ */
+export function getUserInfo(){
+    return http.get('/user/setting/user');
 }

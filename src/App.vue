@@ -43,7 +43,7 @@
     .mt10{
         margin-top: 10px;
     }
-    .van-cell-swipe__right{
+    .van-cell-swipe__right,.van-cell-swipe__left{
         color: #FFFFFF;
         font-size: 15px;
         width: 65px;
@@ -52,6 +52,9 @@
         text-align: center;
         line-height: 44px;
         background-color: #F44;
+    }
+    .van-cell-swipe__left{
+        background-color: #4b0;
     }
     .ps-re{
         position: relative;
@@ -71,6 +74,11 @@
     .last_line{
         color: #999 !important;
         padding: 20px 0 !important;
+    }
+    .no_data{
+        padding: 20px;
+        text-align: center;
+        color: #999;
     }
 
 </style>

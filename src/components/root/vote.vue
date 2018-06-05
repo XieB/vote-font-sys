@@ -18,7 +18,7 @@
                         <span slot="right">删除</span>
                     </van-cell-swipe>
 
-                    <van-cell title="我是有底线的" v-show="finished" class="last_line"/>
+                    <van-cell title="我是有底线的" v-show="finished" class="last_line no_left"/>
                 </van-list>
             </van-tab>
 
@@ -39,7 +39,7 @@
                         <span slot="right">删除</span>
                     </van-cell-swipe>
 
-                    <van-cell title="我是有底线的" v-show="finishedOver" class="last_line"/>
+                    <van-cell title="我是有底线的" v-show="finishedOver" class="last_line no_left"/>
                 </van-list>
 
             </van-tab>

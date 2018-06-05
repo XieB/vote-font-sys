@@ -14,7 +14,7 @@ MyVerify.install = function (Vue, options) {
             if (!realInput) realInput = el.getElementsByTagName('textarea')[0];
             el.addEventListener('keyup', function (event) {
                 // 首先去除已有样式
-                // console.log(realInput);
+                // console.log(binding);
                 el.className = el.className.replace('input-error', '').trim()
                 let isRequired = binding.value.required
                 if (isRequired) {

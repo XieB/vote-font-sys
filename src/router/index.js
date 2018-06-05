@@ -150,7 +150,7 @@ router.beforeEach(function (to, from, next) {
     // console.log(getCodeUrl);
     let auth = getToken();
     if (to.meta.requiresAuth && (auth == null || auth == '')) {     //微信打开，如果登录后台后打开前台页面，由于是sessionStorage,所以不存在问题
-        if (to.path.indexOf('/user/') == 0){    //'/user/'开头为投票用户
+        if (to.path.indexOf('/user') == 0){    //'/user/'开头为投票用户
             window.location.href = getCodeUrl;
             next(false);
         }else if (to.path.indexOf('/m_root/') == 0){ //'/m_root/'开头为后台管理
