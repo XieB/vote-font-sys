@@ -61,17 +61,27 @@
                         v-checkParam="{required:true}"
                 />
 
+                <section>
+                    <p class="title">选项</p>
+                    <van-list>
+                        <van-cell v-for="(item,index) in info.nameList" :key="index" :title="item + ''" class="select_option" >
+                            <van-icon slot="right-icon" name="delete" class="right-icon" @click="delOption(item,index)" v-if="!voteIsStart" />
+                            <van-icon slot="right-icon" name="delete" class="right-icon-deny" v-else />
+                        </van-cell>
+                    </van-list>
+                </section>
+
                 <van-field
-                        v-model="info.nameList"
-                        label="名单"
-                        type="textarea"
-                        placeholder="人员列表，以英文逗号分隔"
+                        v-model="newField"
+                        placeholder="插入新选项"
                         rows="1"
                         autosize
-                        required
-                        v-checkParam="{required:true}"
-                        :disabled="voteIsStart"
+                        icon="success"
+                        @click-icon="addOptions"
+                        class="add_new_options"
+                        v-if="!voteIsStart"
                 />
+
             </van-cell-group>
         </van-radio-group>
         <div class="plr10 mt10">
@@ -115,7 +125,7 @@
 
 <script>
 
-    import {editVote,getOneVote} from '@/axios';
+    import {editVote,getOneVote,deleteOption,addOption} from '@/axios';
     import { Toast } from 'vant';
     const dayjs = require('dayjs');
     let _time = dayjs();
@@ -129,7 +139,7 @@
                     maxVote: '',
                     startTime: '',
                     endTime: '',
-                    nameList: '',
+                    nameList: [],
                 },
                 startTime: {
                     isShow: false,
@@ -144,6 +154,7 @@
                 ajaxLoadding: true,
                 submitLoading: false,
                 voteIsStart: false, //已开投票仅可修改结束时间
+                newField: '',
             }
         },
         created(){
@@ -164,11 +175,6 @@
 
         },
         watch:{
-            'info.nameList':function(){
-                if (this.info.nameList.indexOf('，') >= 0){
-                    this.info.nameList = this.info.nameList.replace('，',',');
-                }
-            },
             'info.startTime' : function(){
                 this.startTime.currentDate = dayjs(this.info.startTime).toDate();
             },
@@ -209,6 +215,33 @@
                     })
                 })
 
+            },
+            addOptions(){
+                let _fieldValue = this.newField.trim();
+                if (_fieldValue != ''){
+                    addOption(this.info.id,_fieldValue).then(res=>{
+                        if (res.data.status){
+                            this.info.nameList.push(_fieldValue);
+                            this.newField = '';
+                        }else{
+                            Toast('添加失败');
+                        }
+                    })
+                }
+            },
+            delOption(name,index){
+                if (this.info.nameList.length <= 1){
+                    Toast('请至少保留一个选项');
+                    return false;
+                }
+                deleteOption(name,this.info.id).then(res=>{
+                    console.log(res);
+                    if (res.data.status){
+                        this.info.nameList.splice(index,1);
+                    }else{
+                        Toast('删除失败');
+                    }
+                })
             }
         }
     }
@@ -235,6 +268,12 @@
         }
         .van-popup{
             background-color: transparent;
+        }
+        .title{
+            margin: 0;
+            padding: 10px;
+            color: rgba(69,90,100,.6);
+            background-color: #f8f8f8
         }
     }
 </style>

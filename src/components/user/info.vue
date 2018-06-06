@@ -27,6 +27,10 @@
         <div class="plr10 mt10" v-else>
             <van-button type="primary" size="large" class="button" disabled>已审核通过无法修改</van-button>
         </div>
+
+        <van-popup v-model="ajaxLoading">
+            <van-loading color="black"/>
+        </van-popup>
     </div>
 </template>
 
@@ -43,10 +47,12 @@
                 },
                 submitLoading: false,
                 examine: false, //已审核通过无法修改信息
+                ajaxLoading: true,
             }
         },
         created(){
             getUserInfo().then(res=>{
+                this.ajaxLoading = false;
                 if (res.data.status){
                     let _data = res.data.data;
                     this.info.realName = _data.realName;
@@ -78,5 +84,8 @@
 <style lang="less" scoped>
     .info{
         margin-top: 60px;
+        .van-popup{
+            background-color: transparent;
+        }
     }
 </style>

@@ -69,6 +69,31 @@ export function editVote(obj){
 }
 
 /**
+ * 删除投票项
+ * @param value 名称
+ * @param ownerId 归属id
+ * @returns {*}
+ */
+export function deleteOption(value,ownerId){
+    return http.delete('/admin/vote/option',{
+        params: {
+            name: value,
+            ownerId: ownerId
+        }
+    });
+}
+
+/**
+ * 编辑时添加投票项
+ * @param ownerId 所属id
+ * @param value 名称
+ * @returns {AxiosPromise<any>}
+ */
+export function addOption(ownerId,value){
+    return http.post('/admin/vote/option',{ownerId: ownerId,name: value});
+}
+
+/**
  * 重置密码
  * @param obj
  * @returns {AxiosPromise<any> | IDBRequest | Promise<void>}
@@ -101,6 +126,11 @@ export function getExamine(page){
     });
 }
 
+/**
+ * 删除成员
+ * @param id
+ * @returns {*}
+ */
 export function deleteMember(id){
     return http.delete('/admin/system/member',{
         params:{

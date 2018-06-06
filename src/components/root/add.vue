@@ -48,16 +48,25 @@
                         v-checkParam="{required:true}"
                 />
 
+                <section>
+                    <p class="title">选项</p>
+                    <van-list>
+                        <van-cell v-for="(item,index) in info.nameList" :key="index" :title="item + ''" class="select_option" >
+                            <van-icon slot="right-icon" name="delete" class="right-icon" @click="info.nameList.splice(index,1)" />
+                        </van-cell>
+                    </van-list>
+                </section>
+
                 <van-field
-                        v-model="info.nameList"
-                        label="名单"
-                        type="textarea"
-                        placeholder="人员列表，以英文逗号分隔"
+                        v-model="newField"
+                        placeholder="插入新选项"
                         rows="1"
                         autosize
-                        required
-                        v-checkParam="{required:true}"
+                        icon="success"
+                        @click-icon="addOptions"
+                        class="add_new_options"
                 />
+
             </van-cell-group>
         </van-radio-group>
         <div class="plr10 mt10">
@@ -110,7 +119,7 @@
                     maxVote: '',
                     startTime: '',
                     endTime: '',
-                    nameList: '',
+                    nameList: [],
                 },
                 startTime: {
                     isShow: false,
@@ -123,6 +132,7 @@
                     currentDate: oneDayLater.toDate(),
                 },
                 submitLoading: false,
+                newField: '',
             }
         },
         created(){
@@ -130,11 +140,6 @@
             this.info.endTime = oneDayLater.format('YYYY-MM-DD HH:mm');
         },
         watch:{
-            'info.nameList':function(){
-                if (this.info.nameList.indexOf('，') >= 0){
-                    this.info.nameList = this.info.nameList.replace('，',',');
-                }
-            }
         },
         methods:{
             submitStartTime(value){
@@ -159,10 +164,14 @@
             resetData(){
                 this.info.title = '';
                 this.info.maxVote = '';
-                this.info.nameList = '';
+                this.info.nameList = [];
             },
             submit(){
                 this.$VerifyAll().then(res=>{
+                    if (this.info.nameList.length == 0){
+                        Toast('请至少添加一个选项');
+                        return false;
+                    }
                     this.submitLoading = true;
                     addVote(this.info).then(res=>{
                         this.submitLoading = false;
@@ -175,10 +184,18 @@
                     })
                 })
 
+            },
+            addOptions(){
+                let _fieldValue = this.newField.trim();
+                if (_fieldValue != ''){
+                    this.info.nameList.push(_fieldValue);
+                    this.newField = '';
+                }
             }
         }
     }
 </script>
+
 
 <style lang="less" scoped>
 .add_vote{
@@ -198,6 +215,12 @@
     }
     .top-enter, .top-leave-to {
         top: 100vh;
+    }
+    .title{
+        margin: 0;
+        padding: 10px;
+        color: rgba(69,90,100,.6);
+        background-color: #f8f8f8
     }
 }
 </style>

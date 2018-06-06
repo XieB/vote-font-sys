@@ -10,7 +10,7 @@
     }
 </script>
 
-<style>
+<style lang="less">
     #app {
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
@@ -28,7 +28,7 @@
     .foot_h:after{
         content: '';
         display: block;
-        height: 50px;
+        height: 60px;
     }
 
     .add_vote .van-cell__title,.edit_vote .van-cell__title,.info .van-cell__title{
@@ -80,5 +80,30 @@
         text-align: center;
         color: #999;
     }
+
+    .add_vote{
+        .add_new_options{
+            .van-field__icon {
+                display: inline-block !important;
+                .van-icon-success{
+                    color: #4b0;
+                }
+            }
+        }
+        .select_option{
+            .van-cell__title{
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .right-icon{
+                color: #f44;
+            }
+            .right-icon-deny{
+                color: rgba(69, 90, 100, 0.6);
+            }
+        }
+    }
+
 
 </style>

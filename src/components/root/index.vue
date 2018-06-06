@@ -1,5 +1,5 @@
 <template>
-    <div class="index">
+    <div class="index foot_h">
         <router-view></router-view>
         <van-tabbar v-model="active">
             <van-tabbar-item icon="more" to="/m_root/vote">投票列表</van-tabbar-item>
