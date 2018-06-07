@@ -164,10 +164,26 @@ export function getTokenFromWechatCode(code){
 
 /**
  * 用户获取投票
+ * @param type 类型
+ * @param page 分页
  * @returns {*}
  */
-export function getUserVote(){
-    return http.get('/user/vote');
+export function getUserVote(type,page){
+    let _type;
+    switch (type){
+        case 'going':
+            _type = '2';
+            break;
+        case 'end':
+            _type = '1';
+            break;
+    }
+    return http.get('/user/vote',{
+        params:{
+            type: _type,
+            page: page,
+        }
+    });
 }
 
 /**
@@ -185,4 +201,89 @@ export function updateUserInfo(obj){
  */
 export function getUserInfo(){
     return http.get('/user/setting/user');
+}
+
+/**
+ * 通过id获取选项
+ * @param id ownerId
+ * @returns {*}
+ */
+export function getUserOptions(ownerId){
+    return http.get('/user/option',{
+        params: {
+            ownerId: ownerId,
+        }
+    })
+}
+
+/**
+ * 获取一条投票信息
+ * @param id
+ * @returns {*}
+ */
+export function getUserOneVote(id){
+    return http.get('/user/vote/one',{
+        params: {
+            id: id,
+        }
+    })
+}
+
+/**
+ * 单选投票
+ * @param optionId 选项id
+ * @param voteId voteId
+ * @returns {AxiosPromise<any>}
+ */
+export function voteRadio(optionId,voteId){
+    return http.post('/user/vote/radio',{id: optionId,ownerId: voteId});
+}
+
+/**
+ * 复选投票
+ * @param optionIdList optionId数组
+ * @param voteId voteId
+ * @returns {AxiosPromise<any>}
+ */
+export function voteCheckBox(optionIdList,voteId){
+    return http.post('/user/vote/checkbox',{idList: optionIdList,ownerId: voteId});
+}
+
+/**
+ * 查询用户是否已经投票
+ * @param voteId
+ * @returns {*}
+ */
+export function hasVote(voteId){
+    return http.get('/user/vote/voted',{
+        params: {
+            ownerId: voteId,
+        }
+    })
+}
+
+/**
+ * 获取投票结果
+ * @param voteId
+ * @returns {*}
+ */
+export function getVoteResult(voteId){
+    return http.get('/user/vote/result',{
+        params: {
+            ownerId: voteId,
+        }
+    })
+}
+
+/**
+ * 获取投票参与人数
+ * @param voteId
+ * @returns {*}
+ */
+export function getVotePersonNums(voteId){
+    return http.get('/user/vote/votePersonNums',{
+        params: {
+            ownerId: voteId,
+        }
+    })
 }

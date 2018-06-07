@@ -1,49 +1,55 @@
 <template>
     <div class="vote_result">
-        <ul>
-            <li>
-                <div class="name">李丽丽</div>
-                <van-progress :percentage="50"
-                              pivot-text="10票"
-                              color="#4b0"
-                />
-            </li>
-            <li>
-                <div class="name">李丽丽谢谢</div>
-                <van-progress :percentage="30"
-                              pivot-text="8票"
-                              color="#4b0"
-                />
-            </li>
-            <li>
-                <div class="name">李丽丽2</div>
-                <van-progress :percentage="20"
-                              pivot-text="6票"
-                              color="#4b0"
-                />
-            </li>
-            <li>
-                <div class="name">李丽丽x</div>
-                <van-progress :percentage="0"
-                              pivot-text="0票"
-                              color="#4b0"
-                />
-            </li>
-        </ul>
+        <p class="dl_title">投票结果({{nums}}人参与)</p>
+        <van-list>
+            <van-cell v-for="item in list" :key="item.id" class="cell">
+                <van-col span="7">{{item.name}}</van-col>
+                <van-col span="16" offset="1" >
+                    <van-progress :percentage="item.percentage"
+                                  :pivot-text="`${item.voteNum}票`"
+                                  color="#4b0"
+                                  class="progress"
+                    />
+                </van-col>
+            </van-cell>
+        </van-list>
         <div class="plr10 mt10">
             <van-button type="primary" size="large" class="button" @click="goBack" >返回</van-button>
         </div>
-
+        <!--<van-popup v-model="ajaxLoadding">-->
+            <!--<van-loading color="black"/>-->
+        <!--</van-popup>-->
     </div>
 </template>
 
 <script>
+    import {getVoteResult,getVotePersonNums} from '@/axios';
+    import { Toast } from 'vant';
     export default {
         name: "result",
         data(){
             return {
-
+                list: [],
+                // ajaxLoadding: true,
+                nums: 0,
             }
+        },
+
+        created(){
+            let _id = this.$route.params.id;
+            getVoteResult(_id).then(res=>{
+                if (res.data.status){
+                    this.list.push(...res.data.data);
+                }else{
+                    Toast(res.data.info);
+                }
+                // this.ajaxLoadding = false;
+                getVotePersonNums(_id).then(res=>{
+                    if (res.data.status){
+                        this.nums = res.data.data;
+                    }
+                })
+            })
         },
         methods:{
             goBack(){
@@ -53,25 +59,23 @@
     }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
     .vote_result{
-        ul{
-            li{
-                padding: 12px 15px;
+        .cell{
+            .van-cell__value{
                 display: flex;
                 align-items: center;
-                border-bottom: 1px solid #e5e5e5;
-                font-size: 14px;
-                .name{
-                    flex: 3;
-                    text-align: left;
-                }
-                .van-progress{
-                    flex: 7;
-                    height: 6px;
-                    background-color: transparent;
-                }
+                /*.progress{*/
+                    /*background-color: transparent;*/
+                /*}*/
             }
         }
+        .van-popup{
+            background-color: transparent;
+        }
     }
+
+</style>
+
+<style lang="less" scoped>
 </style>

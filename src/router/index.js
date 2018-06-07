@@ -70,7 +70,7 @@ const router = new Router({
                     path: 'setting/add',
                     component: _importAdmin('add'),
                     meta: {
-                        title: '新增投票',
+                        title: '发起投票',
                         requiresAuth: true
                     },
                 },
@@ -117,6 +117,7 @@ const router = new Router({
                 },
                 {
                     path: 'vote/result/:id',
+                    name: 'result',
                     component: _importUser('result'),
                     meta: {
                         title: '投票结果',

@@ -49,7 +49,7 @@
                 />
 
                 <section>
-                    <p class="title">选项</p>
+                    <p class="dl_title">选项</p>
                     <van-list>
                         <van-cell v-for="(item,index) in info.nameList" :key="index" :title="item + ''" class="select_option" >
                             <van-icon slot="right-icon" name="delete" class="right-icon" @click="info.nameList.splice(index,1)" />
@@ -215,12 +215,6 @@
     }
     .top-enter, .top-leave-to {
         top: 100vh;
-    }
-    .title{
-        margin: 0;
-        padding: 10px;
-        color: rgba(69,90,100,.6);
-        background-color: #f8f8f8
     }
 }
 </style>

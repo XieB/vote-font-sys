@@ -11,8 +11,7 @@
 
                     <van-cell-group>
                         <template v-for="(item,index) in list">
-                            <van-cell :title="item.title" :to="{path:'/user/vote/do/' + item.id}" value="未投" is-link v-if="item.type == 2" class="no_left" />
-                            <van-cell :title="item.title" :to="{path:'/user/vote/result/' + item.id}" value="已投" is-link v-else class="no_left" />
+                            <van-cell :title="item.title" :to="{path:'/user/vote/do/' + item.id}" is-link class="no_left" />
                         </template>
                     </van-cell-group>
 
@@ -29,8 +28,7 @@
 
                     <van-cell-group>
                         <template v-for="(item,index) in listOver">
-                            <van-cell :title="item.title" :to="{path:'/user/vote/result/' + item.id}" value="未投" is-link v-if="item.type == 1" class="no_left" />
-                            <van-cell :title="item.title" :to="{path:'/user/vote/result/' + item.id}" value="已投" is-link v-else class="no_left" />
+                            <van-cell :title="item.title" :to="{path:'/user/vote/result/' + item.id}" is-link class="no_left" />
                         </template>
 
                     </van-cell-group>
@@ -69,7 +67,7 @@
         methods:{
             onLoad() {
                 this.loading = true;
-                getUserVote('2',this.page).then(res=>{
+                getUserVote('going',this.page).then(res=>{
                     if (res.data.status){
                         this.list.push(...res.data.data);
                         this.page++;
@@ -81,7 +79,7 @@
             },
             onLoadOver(){
                 this.loadingOver = true;
-                getUserVote('1',this.pageOver).then(res=>{
+                getUserVote('end',this.pageOver).then(res=>{
                     if (res.data.status){
                         this.listOver.push(...res.data.data);
                         this.pageOver++;

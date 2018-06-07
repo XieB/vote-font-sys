@@ -104,6 +104,12 @@
             }
         }
     }
+    .dl_title{
+        margin: 0;
+        padding: 10px;
+        color: rgba(69, 90, 100, 0.6);
+        background-color: #f8f8f8;
+    }
 
 
 </style>

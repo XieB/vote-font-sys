@@ -1,7 +1,7 @@
 <template>
     <div class="setting">
         <van-cell-group>
-            <van-cell title="新增投票" is-link class="no_left" to="/m_root/setting/add"/>
+            <van-cell title="发起投票" is-link class="no_left" to="/m_root/setting/add"/>
             <van-cell title="修改密码" is-link class="no_left" to="/m_root/setting/resetPass"/>
             <van-cell title="审核" is-link class="no_left" to="/m_root/setting/examine"/>
             <van-cell title="人员列表" is-link class="no_left" to="/m_root/setting/memberList"/>
