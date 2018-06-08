@@ -26,7 +26,6 @@
                 return;
             }
             getTokenFromWechatCode(url.code).then(res=>{
-                console.log(res);
                 if (res.data.status){
                     setToken(res.data.data.token);
                     if (res.data.data.isExamine){

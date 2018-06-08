@@ -1,4 +1,6 @@
 import http from './axios';
+import {wxScope} from "@/config";
+
 /**
  * 管理员登录
  * @param username 用户名
@@ -140,6 +142,19 @@ export function deleteMember(id){
 }
 
 /**
+ * 获取用户详细信息
+ * @param id
+ * @returns {*}
+ */
+export function getOneUserInfo(id){
+    return http.get('/admin/system/oneUserInfo',{
+        params: {
+            id: id,
+        }
+    })
+}
+
+/**
  * 审核成员
  * @param id
  * @returns {AxiosPromise<any> | IDBRequest | Promise<void>}
@@ -158,6 +173,7 @@ export function getTokenFromWechatCode(code){
     return http.get('/common/token/user',{
         params: {
             code: code,
+            scope: wxScope,
         }
     });
 }

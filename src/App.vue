@@ -110,6 +110,11 @@
         color: rgba(69, 90, 100, 0.6);
         background-color: #f8f8f8;
     }
+    .flex_cc{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
 
 </style>

@@ -1,6 +1,9 @@
 <template>
     <div class="main login">
         <div>
+            <div class="flex_cc admin_img">
+                <van-icon name="pending-payment" />
+            </div>
             <van-cell-group>
                 <van-field
                         v-model="username"
@@ -62,11 +65,16 @@
 
 <style lang="less" scoped>
 .login{
-    display: flex;
-    align-items: center;
-    height: 90vh;
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*height: 90vh;*/
     & > div{
         width: 100%;
+        .admin_img{
+            font-size: 80px;
+            padding: 40px 0;
+            color: rgba(69, 90, 100, .6);
+        }
     }
     .button{
         margin-top: 40px;

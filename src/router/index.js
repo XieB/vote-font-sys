@@ -90,6 +90,15 @@ const router = new Router({
                         requiresAuth: true
                     },
                 },
+                {
+                    path: 'setting/userInfo/:id',
+                    component: _importAdmin('userInfo'),
+                    name: 'adminUserInfo',
+                    meta: {
+                        title: '用户信息',
+                        requiresAuth: true
+                    },
+                },
             ]
         },
 

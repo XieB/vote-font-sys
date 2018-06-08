@@ -10,7 +10,7 @@
             <van-cell-swipe :right-width="65" :left-width="65" v-for="(item,index) in list"  :on-close="onClose(item.id,index)">
                 <span slot="left">审核</span>
                 <van-cell-group>
-                    <van-cell :title="`${item.realName} ${item.mobile}`" />
+                    <van-cell :title="`${item.realName}`" is-link :to="{name: 'adminUserInfo',params: {id: item.id}}"/>
                 </van-cell-group>
                 <span slot="right">删除</span>
             </van-cell-swipe>

@@ -1,5 +1,8 @@
 <template>
     <div class="info">
+        <div class="flex_cc header_img">
+            <img :src="headerImg" alt="">
+        </div>
         <van-cell-group>
             <van-field
                     v-model="info.realName"
@@ -37,6 +40,7 @@
 <script>
     import {updateUserInfo,getUserInfo} from '@/axios';
     import { Toast } from 'vant';
+    import { reviseUrl } from "@/utils";
     export default {
         name: "info",
         data(){
@@ -48,15 +52,18 @@
                 submitLoading: false,
                 examine: false, //已审核通过无法修改信息
                 ajaxLoading: true,
+                headerImg: '',
             }
         },
         created(){
+            reviseUrl();
             getUserInfo().then(res=>{
                 this.ajaxLoading = false;
                 if (res.data.status){
                     let _data = res.data.data;
                     this.info.realName = _data.realName;
                     this.info.mobile = _data.mobile;
+                    this.headerImg = _data.headimgurl;
                     if (_data.examine){
                         this.examine = true;
                     }
@@ -83,7 +90,12 @@
 
 <style lang="less" scoped>
     .info{
-        margin-top: 60px;
+        .header_img{
+            padding: 40px 0;
+            img{
+                max-width: 100%;
+            }
+        }
         .van-popup{
             background-color: transparent;
         }
