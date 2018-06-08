@@ -37,7 +37,6 @@
         },
         methods:{
             onLoad() {
-                console.log('load');
                 this.loading = true;
                 getExamine(this.page).then(res=>{
                     if (res.data.status){

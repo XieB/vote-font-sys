@@ -19,7 +19,7 @@
                         v-checkParam="{required:true}"
                 />
             </van-cell-group>
-            <van-button type="primary" size="large" class="button" @click="submit">登录</van-button>
+            <van-button type="primary" size="large" class="button" @click="submit"  :loading="submitLoading">登录</van-button>
         </div>
     </div>
 </template>
@@ -35,18 +35,21 @@
             return {
                 username: '',
                 password: '',
+                submitLoading: false,
             }
         },
         methods:{
             submit(){
                 this.$VerifyAll().then(res=>{
+                    this.submitLoading = true;
                     if (res){
                         adminLogin(this.username,this.password).then(res=>{
                             if (res.data.status){
                                 setToken(res.data.data);
-                                this.$router.push('/m_root/vote');
+                                this.$router.push({name: 'voteManager'});
                             }else{
                                 Toast(res.data.info);
+                                this.submitLoading = false;
                             }
                         })
                     }

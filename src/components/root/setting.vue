@@ -1,10 +1,10 @@
 <template>
     <div class="setting">
         <van-cell-group>
-            <van-cell title="发起投票" is-link class="no_left" to="/m_root/setting/add"/>
-            <van-cell title="修改密码" is-link class="no_left" to="/m_root/setting/resetPass"/>
-            <van-cell title="审核" is-link class="no_left" to="/m_root/setting/examine"/>
-            <van-cell title="人员列表" is-link class="no_left" to="/m_root/setting/memberList"/>
+            <van-cell title="发起投票" is-link class="no_left" :to="{name: 'addVote'}"/>
+            <van-cell title="修改密码" is-link class="no_left" :to="{name: 'resetPass'}"/>
+            <van-cell title="审核" is-link class="no_left" :to="{name: 'examine'}"/>
+            <van-cell title="人员列表" is-link class="no_left" :to="{name: 'memberList'}"/>
         </van-cell-group>
     </div>
 </template>

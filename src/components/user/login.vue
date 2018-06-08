@@ -30,9 +30,9 @@
                 if (res.data.status){
                     setToken(res.data.data.token);
                     if (res.data.data.isExamine){
-                        this.$router.replace('/user/vote');
+                        this.$router.replace({name: 'userVote'});
                     }else{
-                        this.$router.replace('/user/setting/info');
+                        this.$router.replace({name: 'userInfo'});
                     }
                     // let redirectUrl = location.href.replace(location.search,'');
                     // window.location.href = redirectUrl;     //如果不替换会有code参数

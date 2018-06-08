@@ -12,8 +12,7 @@
 
                     <van-cell-swipe :right-width="65"  v-for="(item,index) in list" :on-close="onClose(item.id,index)">
                         <van-cell-group>
-                            <van-cell :title="item.title" :to="{path:'/m_root/vote/edit/' + item.id}" value="单选" is-link v-if="item.type == 1" />
-                            <van-cell :title="item.title" :to="{path:'/m_root/vote/edit/' + item.id}" value="多选" is-link v-else />
+                            <van-cell :title="item.title" :to="{name: 'adminEdit',params: {id: item.id}}" is-link />
                         </van-cell-group>
                         <span slot="right">删除</span>
                     </van-cell-swipe>
@@ -33,8 +32,7 @@
 
                     <van-cell-swipe :right-width="65"  v-for="(item,index) in listOver" :on-close="onCloseOver(item.id,index)">
                         <van-cell-group>
-                            <van-cell :title="item.title" :to="{path:'/m_root/vote/edit/' + item.id}" value="单选" is-link v-if="item.type == 1" />
-                            <van-cell :title="item.title" :to="{path:'/m_root/vote/edit/' + item.id}" value="多选" is-link v-else />
+                            <van-cell :title="item.title" :to="{name: 'adminResult',params: {id: item.id}}" is-link />
                         </van-cell-group>
                         <span slot="right">删除</span>
                     </van-cell-swipe>

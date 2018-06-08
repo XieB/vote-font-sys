@@ -275,6 +275,14 @@ export function getVoteResult(voteId){
     })
 }
 
+export function getAdminVoteResult(voteId){   //token不同的验证方式，方法不能共用
+    return http.get('/admin/vote/result',{
+        params: {
+            ownerId: voteId,
+        }
+    })
+}
+
 /**
  * 获取投票参与人数
  * @param voteId
@@ -282,6 +290,15 @@ export function getVoteResult(voteId){
  */
 export function getVotePersonNums(voteId){
     return http.get('/user/vote/votePersonNums',{
+        params: {
+            ownerId: voteId,
+        }
+    })
+}
+
+
+export function getAdminVotePersonNums(voteId){
+    return http.get('/admin/vote/votePersonNums',{
         params: {
             ownerId: voteId,
         }

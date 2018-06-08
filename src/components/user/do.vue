@@ -79,7 +79,7 @@
                     if (res.data.status){
                         Toast('投票成功，即将为您跳转');
                         setTimeout(()=>{
-                            this.$router.replace('/user/vote');
+                            this.$router.replace({name: 'userVote'});
                         },2000)
                     }else{
                         Toast(res.data.info);
@@ -97,7 +97,7 @@
                     if (res.data.status){
                         Toast('投票成功，即将为您跳转');
                         setTimeout(()=>{
-                            this.$router.replace('/user/vote');
+                            this.$router.replace({name: 'userVote'});
                         },2000)
                     }else{
                         Toast(res.data.info);

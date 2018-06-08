@@ -52,7 +52,7 @@ http.interceptors.response.use(
                 } else if(error.response.data.code == '1'){
                     Toast('登录已过期，请重新登录');
                     setTimeout(()=>{
-                        window.router.replace('/m_root/login');
+                        window.router.replace({name: 'adminLogin'});
                     },2000);
                 }
                 break;
