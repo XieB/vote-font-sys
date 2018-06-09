@@ -40,7 +40,6 @@
 <script>
     import {updateUserInfo,getUserInfo} from '@/axios';
     import { Toast } from 'vant';
-    import { reviseUrl } from "@/utils";
     export default {
         name: "info",
         data(){
@@ -56,7 +55,6 @@
             }
         },
         created(){
-            reviseUrl();
             getUserInfo().then(res=>{
                 this.ajaxLoading = false;
                 if (res.data.status){

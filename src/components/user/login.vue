@@ -10,7 +10,7 @@
     const queryString = require('query-string');
     import { getTokenFromWechatCode } from '@/axios';
     import { Toast } from 'vant';
-    import { setToken } from '@/utils';
+    import { setToken,setWxCode,getWxCode,reviseUrl,clearWxCode } from '@/utils';
     export default {
         name: "login",
         data(){
@@ -20,26 +20,35 @@
         },
         created(){
             let url = queryString.parse(location.search);
-            if (!url.code){
+            if (!url.code && getWxCode() == null){
                 this.ajaxLoading = false;
                 Toast('请勿直接打开该页面');
                 return;
             }
-            getTokenFromWechatCode(url.code).then(res=>{
-                if (res.data.status){
-                    setToken(res.data.data.token);
-                    if (res.data.data.isExamine){
-                        this.$router.replace({name: 'userVote'});
+            if (url.code) {
+                setWxCode(url.code);
+                reviseUrl();
+                return;
+            }
+
+            if (getWxCode()){
+                getTokenFromWechatCode(getWxCode()).then(res=>{
+                    if (res.data.status){
+                        setToken(res.data.data.token);
+                        if (res.data.data.isExamine){
+                            this.$router.replace({name: 'userVote'});
+                        }else{
+                            this.$router.replace({name: 'userInfo'});
+                        }
                     }else{
-                        this.$router.replace({name: 'userInfo'});
+                        Toast('登录失败，请稍后再试');
                     }
-                    // let redirectUrl = location.href.replace(location.search,'');
-                    // window.location.href = redirectUrl;     //如果不替换会有code参数
-                }else{
-                    Toast('登录失败，请稍后再试');
-                }
-            })
+                })
+            }
         },
+        destroyed(){
+            clearWxCode();    //window.location.href不触发该钩子
+        }
     }
 </script>
 

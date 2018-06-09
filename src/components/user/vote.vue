@@ -43,7 +43,6 @@
 <script>
     import { Dialog } from 'vant';
     import { getUserVote,getUserInfo } from '@/axios';
-    import { reviseUrl} from "@/utils";
 
     export default {
         name: "vote",
@@ -62,7 +61,6 @@
             }
         },
         created(){
-            reviseUrl();
         },
         methods:{
             onLoad() {
